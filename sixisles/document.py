@@ -27,7 +27,6 @@ class Document(object):
 
     def __init__(self, data=None):
         self.__store = self.DataStore()
-
         self.initialize(data)
 
     def __getattr__(self, key):
@@ -86,7 +85,7 @@ class Document(object):
         data = cls.collection().find_one({key: value}, *args, **kwargs)
         if not data:
             return None
-        return cls.create(data)
+        return cls(data)
 
     @classmethod
     def find(cls, *args, **kwargs):
@@ -126,11 +125,6 @@ class Document(object):
     def update_all(cls, documents, update, upsert=False):
         keys = [x.pk() for x in documents]
         return cls.collection().update_many({'_id': {'$in': keys}}, update, upsert=upsert)
-
-    def save(self, upsert=False):
-        if not self.pk():
-            return self.insert()
-        return self.update()
 
     def delete(self):
         if not self.pk():
