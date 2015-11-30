@@ -71,7 +71,7 @@ class Boolean(int, TypeMixin):
         return bool()
 
 
-class DateTime(datetime, TypeMixin):
+class DateTime(TypeMixin):
     def is_valid(self, value):
         return isinstance(value, datetime)
 
